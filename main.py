@@ -6,43 +6,35 @@ from pytimeparse import parse
 from dotenv import load_dotenv 
 
 
-load_dotenv()
-TG_TOKEN = os.getenv('TG_TOKEN') 
-TG_CHAT_ID = os.getenv('TG_CHAT_ID')
-
-
 
 def reply(chat_id, message):
     number = parse(message)
     message_id = bot.send_message(chat_id, 'Запускаю таймер')
     bot.create_timer(
-    number,
-    mailing,
-    chat_id = chat_id,
-    message = message
+        number,
+        mailing, 
+        chat_id = chat_id, 
+        message = message
     )
     bot.create_countdown(
-    number,
-    notify_progress,
-    chat_id = chat_id,
-    message_id = message_id,
-    number = number
+        number, 
+        notify_progress,
+        chat_id = chat_id, 
+        message_id = message_id, 
+        number = number
     )   
-
 
 
 def mailing (chat_id, message):
     bot.send_message(chat_id, 'Время вышло!')
 
 
-
-
 def notify_progress(secs_left, chat_id, message_id, number):
     bot.update_message(
     chat_id, 
     message_id,
-    'Осталось {} секунд\n{}'.format(secs_left, render_progressbar(number, number - secs_left)))
-    
+    'Осталось {} секунд\n{}'.format(secs_left, render_progressbar(number, number - secs_left))
+    )    
 
 
 def render_progressbar(total, iteration, prefix='', suffix='', length=30, fill='█', zfill='░'):
@@ -54,8 +46,11 @@ def render_progressbar(total, iteration, prefix='', suffix='', length=30, fill='
     return '{0} |{1}| {2}% {3}'.format(prefix, pbar, percent, suffix)
 
 
-
 if __name__ == '__main__':
+    load_dotenv()
+    TG_TOKEN = os.getenv('TG_TOKEN') 
+    TG_CHAT_ID = os.getenv('TG_CHAT_ID')
+    
     bot = ptbot.Bot(TG_CHAT_ID)
     bot.send_message(TG_TOKEN, "Привет!")
     bot.reply_on_message(reply)
