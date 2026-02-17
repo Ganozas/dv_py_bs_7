@@ -6,6 +6,10 @@ from pytimeparse import parse
 from dotenv import load_dotenv 
 
 
+load_dotenv()
+TG_TOKEN = os.getenv('TG_TOKEN') 
+TG_CHAT_ID = os.getenv('TG_CHAT_ID')
+bot = ptbot.Bot(TG_CHAT_ID)
 
 def reply(chat_id, message):
     number = parse(message)
@@ -46,13 +50,13 @@ def render_progressbar(total, iteration, prefix='', suffix='', length=30, fill='
     return '{0} |{1}| {2}% {3}'.format(prefix, pbar, percent, suffix)
 
 
-if __name__ == '__main__':
-    load_dotenv()
-    TG_TOKEN = os.getenv('TG_TOKEN') 
-    TG_CHAT_ID = os.getenv('TG_CHAT_ID')
-    
-    bot = ptbot.Bot(TG_CHAT_ID)
+def main():
     bot.send_message(TG_TOKEN, "Привет!")
     bot.reply_on_message(reply)
     bot.run_bot()
 
+
+if __name__ == '__main__':
+    main()
+    
+    
