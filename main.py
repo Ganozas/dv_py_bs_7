@@ -7,7 +7,7 @@ from decouple import config
 
 TG_TOKEN = config('TG_TOKEN') 
 TG_CHAT_ID = config('TG_CHAT_ID')
-bot = ptbot.Bot(TG_CHAT_ID)
+
 
 
 def reply(chat_id, message):
@@ -56,6 +56,7 @@ def main():
 
 
 if __name__ == '__main__':
+    bot = ptbot.Bot(TG_CHAT_ID)
     main()
     
     
