@@ -9,7 +9,6 @@ TG_TOKEN = config('TG_TOKEN')
 TG_CHAT_ID = config('TG_CHAT_ID')
 
 
-
 def reply(chat_id, message):
     number = parse(message)
     message_id = bot.send_message(chat_id, 'Запускаю таймер')
