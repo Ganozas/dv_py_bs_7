@@ -9,29 +9,31 @@ TG_TOKEN = config('TG_TOKEN')
 TG_CHAT_ID = config('TG_CHAT_ID')
 
 
-def reply(chat_id, message):
+def reply(chat_id, message, bot):
     number = parse(message)
     message_id = bot.send_message(chat_id, 'Запускаю таймер')
     bot.create_timer(
         number,
         mailing, 
         chat_id = chat_id, 
-        message = message
+        message = message,
+        bot = bot
     )
     bot.create_countdown(
         number, 
         notify_progress,
         chat_id = chat_id, 
         message_id = message_id, 
-        number = number
+        number = number,
+        bot = bot
     )   
 
 
-def mailing (chat_id, message):
+def mailing (chat_id, message, bot):
     bot.send_message(chat_id, 'Время вышло!')
 
 
-def notify_progress(secs_left, chat_id, message_id, number):
+def notify_progress(secs_left, chat_id, message_id, number, bot):
     bot.update_message(
     chat_id, 
     message_id,
@@ -49,13 +51,13 @@ def render_progressbar(total, iteration, prefix='', suffix='', length=30, fill='
 
 
 def main():
+    bot = ptbot.Bot(TG_CHAT_ID)
     bot.send_message(TG_TOKEN, "Привет!")
-    bot.reply_on_message(reply)
+    bot.reply_on_message(reply, bot=bot)
     bot.run_bot()
 
 
 if __name__ == '__main__':
-    bot = ptbot.Bot(TG_CHAT_ID)
     main()
     
     
